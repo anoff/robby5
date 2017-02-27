@@ -18,6 +18,14 @@ Hook the car up with at least 5 sonar sensors to allow better areal awareness.
 
 The idea is to interface the sensors via an additional arduino that exposes the individual sensors over I2C.
 
+## autonomous nodebot
+
+re-implement the default smart robot car program using raspi & nodeJS as control device. Use sonar for obstacle detection:
+* move straight until obstacle <20cm distance
+* move sonar to right/left using the servo
+* turn robot in the direction with most distance to next obstacle
+* repeat
+
 ## improved movement
 
 some issues with the base robot car should be improved when it comes to movement:
@@ -37,3 +45,7 @@ come up with an idea how to use the sonar sensor (possibly rotating) to map a ro
 ## relative robot localization
 
 use odometry, inertial sensors, sonar/lidar feedback to allow for a control loop system aware of its past movement.
+
+## robby wars
+
+attach laser diodes & laser sensor to the robot. build a remote control web UI to maneuver the robot. attach LED strips to indicate health bars (or on the web UI). use your laser beam to hit other robots
