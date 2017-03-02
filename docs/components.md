@@ -31,3 +31,19 @@ pins: `14` digital, `6` PWM, `6` analog, SPI, I2C
 * [technical specs](https://www.arduino.cc/en/Main/arduinoBoardProMini#techspecs)
 
 If I2C is active still 12 digital pins useable > could expose 6 ultrasonic sensors via I2C while reserving serial port.
+
+# raspberry pi (3)
+
+Price: `35€`
+
+VCC: `5V`
+
+As the raspi can run a full debian system it and v3 comes with built-in wifi and bluetooth it's perfect to act as the main hub.
+You can implement full webservers host a small database on the side etc.
+
+
+libraries to use with nodeJS:
+* [raspi-io](https://github.com/nebrius/raspi-io/): Low level API for wiringpi
+* [raspi.js](https://github.com/nebrius/raspi): JS API for rasp-io
+* [pin layout](https://pinout.xyz/)
+* [johnny-five](http://johnny-five.io/)

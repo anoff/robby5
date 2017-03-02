@@ -9,6 +9,7 @@ Inspired by [johnny-five](http://johnny-five.io/) the main controlling unit will
 
 The base setup is the [elegoo smart robot car kit v1](https://www.elegoo.com/product/elegoo-uno-project-smart-robot-car-kit-v1-0/) or [v2](https://www.elegoo.com/product/elegoo-uno-project-upgraded-smart-robot-car-kit-v2-0/). However the components on it only allow to build really basic robots. To make it usable for some higher level automation it needs the base needs to be extended with:
 
+
 # project ideas
 
 ## multiple sonar sensors
@@ -21,10 +22,37 @@ The idea is to interface the sensors via an additional arduino that exposes the 
 ## improved movement
 
 some issues with the base robot car should be improved when it comes to movement:
-1. DC engines do not allow for proper odometry due to varying speed, maybe use steppers
-1. wheels on each side are controlled in pairs, using individual wheel control might improve maneuverability e.g. only stopping rear wheel to turn
-1. wheels have high grip which makes it hard to turn
-1. evaluate using 2 driven wheels in front and one undriven wheel in the rear for 
+
+### steppers
+
+DC engines do not allow for proper odometry due to varying speed, maybe use steppers
+
+### 4WD
+
+wheels on each side are controlled in pairs, using individual wheel control might improve maneuverability e.g. only stopping rear wheel to turn
+
+**before:**
+
+the original setup comes with one motor driver that allows two seperately controlled outputs. this is set up to drive the wheel pair on either side in sync.
+![original elegoo setup](./assets/4wd-1.png)
+
+**after:**
+
+adding an additional motor driver would allow to drive each wheel individually. this would require 2 additional 4 additional pins on the µc to be used.
+![original elegoo setup](./assets/4wd-2.png)
+
+### reduce wheel grip
+
+wheels have high grip which makes it hard to turn. having lower friction (especially lateral) would allow easier turns.
+
+#### omni / mecanum wheels 
+
+although quite expensive (100€ per set) the [mecanum wheels](https://www.youtube.com/watch?v=8sH1a511_q4) would allow amazing 2D movements in any direction incl strafing.
+control logic would be a bit trick probably as well as possible negative influences on odometry solutions
+
+#### 2WD
+
+evaluate using 2 driven wheels in front and one undriven wheel in the rear for stability. this would be a cheap solution for the masses. unsure what negative side effects this would have as opposed to 4 wheels.
 
 ## remote localization
 
@@ -37,3 +65,13 @@ come up with an idea how to use the sonar sensor (possibly rotating) to map a ro
 ## relative robot localization
 
 use odometry, inertial sensors, sonar/lidar feedback to allow for a control loop system aware of its past movement.
+
+# troubleshooting
+
+## serialport does not install on raspbian
+
+for some reason jessy doesn't ship with git installed which the `serialport` module needs during its make.
+
+```sh
+apt-get install git
+```
