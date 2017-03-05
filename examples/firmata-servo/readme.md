@@ -21,7 +21,7 @@ To use the code you will need an arduino with FirmataPlus flashed on it as well 
 * attach arduino via USB port
 * change the USB port where your arduino is located (arduino studio can help you to find it) in `firmata.js`
 * run either `node firmata` or `node johnny5` depending on which version you want to test
-* open http://localhost:3000 in your browser
+* open [http://localhost:3000](http://localhost:3000) in your browser
 * for fun open it in multiple browsers
 
 # firmata.js vs johnny-five
