@@ -13,7 +13,7 @@ There is one solution that uses the [johnny-five library](http://johnny-five.io/
 
 To use the code you will need an arduino with FirmataPlus flashed on it as well as a servo motor connected to PIN3 (see below)
 
-![components](./servo.svg)
+![components](./servo.png)
 
 # Usage
 
