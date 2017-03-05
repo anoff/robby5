@@ -2,7 +2,7 @@
   "name": "firmata-pi",
   "version": "0.2.0",
   "description": "control servo motor over multi-user web UI",
-  "main": "index.js",
+  "main": "firmata.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

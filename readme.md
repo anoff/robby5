@@ -78,6 +78,14 @@ use odometry, inertial sensors, sonar/lidar feedback to allow for a control loop
 
 attach laser diodes & laser sensor to the robot. build a remote control web UI to maneuver the robot. attach LED strips to indicate health bars (or on the web UI). use your laser beam to hit other robots
 
+# examples
+
+There is a list of examples on how to use the underlying components within this project
+
+## [firmata-servo](./examples/firmata-servo)
+
+Shows how to use [johnny-five](http://johnny-five.io/) or [firmata.js](https://github.com/firmata/firmata.js/) to control a servo.
+
 # troubleshooting
 
 ## serialport does not install on raspbian
