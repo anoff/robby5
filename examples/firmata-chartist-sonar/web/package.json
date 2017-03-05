@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "chartist": "^0.10.1",
+    "socket.io": "^1.7.3"
+  }
+}

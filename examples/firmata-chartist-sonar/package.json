@@ -1,0 +1,17 @@
+{
+  "name": "firmata-vue-sonar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andreas Offenhäuser <offenhaeuser@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.0",
+    "johnny-five": "^0.10.6",
+    "serialport": "^4.0.7",
+    "socket.io": "^1.7.3"
+  }
+}

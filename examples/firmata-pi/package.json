@@ -1,0 +1,18 @@
+{
+  "name": "firmata-pi",
+  "version": "0.2.0",
+  "description": "control servo motor over multi-user web UI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andreas Offenhäuser <offenhaeuser@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.1",
+    "johnny-five": "^0.10.6",
+    "serialport": "4.0.7",
+    "socket.io": "^1.7.3"
+  },
+  "private": true
+}
