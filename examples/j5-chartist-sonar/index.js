@@ -4,23 +4,17 @@ const path = require('path');
 const socket = require('socket.io');
 const app = express();
 
-const port = 4242;
+const port = 3000;
 const webDistPath = path.join(__dirname, 'web');
 
-
-// Make directory '/static' public available:
 app.use('/', express.static(webDistPath));
 
 app.get('/', function(req, res) {
-// Serve 'index.html':
-    console.log(new Date(), req.originalUrl, path.join(webDistPath, 'index.html'));
     res.sendFile(path.join(webDistPath, 'index.html'));
 });
 
-const board = new five.Board({port: '/dev/cu.usbmodem1411', repl: true });
+const board = new five.Board({port: '/dev/cu.usbmodem1411', repl: false });
 
-
-console.log('STARTING');
 let sonar;
 board.on('ready', function() {
   console.log('BOARD READY');

@@ -86,6 +86,10 @@ There is a list of examples on how to use the underlying components within this 
 
 Shows how to use [johnny-five](http://johnny-five.io/) or [firmata.js](https://github.com/firmata/firmata.js/) to control a servo.
 
+## [j5-chartist-sonar](./examples/j5-chartist-sonar)
+
+Capture HC-SR04 sonar distance readings via johnny-five and chart them on a website.
+
 # troubleshooting
 
 ## serialport does not install on raspbian
