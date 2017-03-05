@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "johnny-five": "^0.10.6",
+    "serialport": "^4.0.7",
+    "raspi-io": "^7.2.4"
+  }
+}

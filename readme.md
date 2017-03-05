@@ -90,6 +90,10 @@ Shows how to use [johnny-five](http://johnny-five.io/) or [firmata.js](https://g
 
 Capture HC-SR04 sonar distance readings via johnny-five and chart them on a website.
 
+## [raspi-led](./examples/raspi-led)
+
+Use raspberry pi IO to play with LEDs using johnny-five / raspi-io
+
 # troubleshooting
 
 ## serialport does not install on raspbian
