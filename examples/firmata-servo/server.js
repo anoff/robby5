@@ -3,7 +3,7 @@ const path = require('path');
 const socket = require('socket.io');
 const app = express();
 
-const PORT = 3000;
+const PORT = 3030;
 const POS_MAX = 170;
 const POS_MIN = 0.01; // 0 won't update the chart
 const POS_START = 90;

@@ -1,10 +1,6 @@
 const five = require('johnny-five');
-const serverStart = require('./server');
 
 const SERVO_PIN = 3;
-const POS_MAX = 170;
-const POS_MIN = 0.01; // 0 won't update the chart
-const POS_START = 90;
 
 // start the johnny-five connection
 const board = new five.Board({/*port: '/dev/ttyACM0',*/ repl: false });
@@ -15,7 +11,6 @@ board.on('ready', function() {
   servo = new five.Servo({
     pin: SERVO_PIN
   });
-  servo.to(POS_START);
+  servo.to(0);
+  setTimeout(() => servo.sweep(), 2000);
 });
-
-serverStart((pos) => servo.to(pos));
