@@ -103,3 +103,7 @@ for some reason jessy doesn't ship with git installed which the `serialport` mod
 ```sh
 apt-get install git
 ```
+
+## node module installation fails using `yarn``
+
+yes it happens.. guess it's something with the compilation use `npm install` instead

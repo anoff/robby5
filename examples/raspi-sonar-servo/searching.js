@@ -5,6 +5,7 @@ const SERVO_PIN = 3;
 const POS_MAX = 180;
 const POS_MIN = 0;
 let servoPos = 90;
+let stepInterval = 5; // stepsize (deg) of servo
 
 // start the johnny-five connection
 const board = new firmata.Board('/dev/ttyACM0', err => {
@@ -12,12 +13,17 @@ const board = new firmata.Board('/dev/ttyACM0', err => {
 });
 
 let moving = false;
-function moveServo(pos) {
+function moveServo(pos, pause = 30) {
   if (moving) return;
   moving = true;
   board.servoWrite(SERVO_PIN, pos);
-  setTimeout(() => moving = false, 1000);
+  setTimeout(() => moving = false, pause);
 }
+function stepServo() {
+  servoPos += stepInterval;
+  moveServo(servoPos);
+}
+
 board.on('ready', function(err) {
   console.log('BOARD READY');
   board.servoConfig(SERVO_PIN, POS_MIN, POS_MAX);
@@ -33,16 +39,23 @@ pingBoard.on("ready", function() {
   });
 
   sonar.on('data', function() {
-    if (this.cm < 20 && !moving) {
-      if (servoPos === 90) {
-        servoPos = 180;
-      } else if (servoPos === 180) {
-        servoPos = 0;
+    if (this.cm > 20 && !moving) {
+      console.log(`can not see anything at ${servoPos} moving along`);
+      if (stepInterval > 0) {
+        if (servoPos < POS_MAX) {
+          stepServo();
+        } else {
+          stepInterval = -1 * stepInterval;
+          stepServo();
+        }
       } else {
-        servoPos = 90;
+        if (servoPos > POS_MIN) {
+          stepServo();
+        } else {
+          stepInterval = -1 * stepInterval;
+          stepServo();
+        }
       }
-      console.log(`blocked..moving to ${servoPos}`);
-      moveServo(servoPos);
     }
   });
 });
