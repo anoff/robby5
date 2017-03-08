@@ -13,6 +13,7 @@ app.get('/', function(req, res) {
 });
 
 const board = new five.Board({/*port: '/dev/cu.usbmodem1411',*/ repl: false });
+// cp2102 bridge on raspi     '/dev/ttyUSB0'
 
 let sonar;
 board.on('ready', function() {

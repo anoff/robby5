@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "firmata": "^0.15.0",
+    "johnny-five": "^0.10.6",
+    "serialport": "^4.0.7"
+  }
+}
