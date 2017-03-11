@@ -2,5 +2,8 @@
   "dependencies": {
     "firmata": "^0.15.0",
     "serialport": "^4.0.7"
+  },
+  "devDependencies": {
+    "xo": "^0.17.1"
   }
 }
