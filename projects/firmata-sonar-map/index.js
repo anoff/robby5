@@ -1,5 +1,6 @@
 const Board = require('firmata');
 
+
 function absAnalogPin(board, analogPin) {
   if (!board) {
     throw new Error('should be used in context of a valid firmata board');
@@ -8,21 +9,27 @@ function absAnalogPin(board, analogPin) {
   return board.analogPins[id];
 }
 
+function responseToMm(microseconds) {
+  return microseconds / 2.91545 / 2;
+  // µs / 10e6 µs/s * 343 m/s * 10e3 mm/m -> mm
+}
+
+function datahandler(us) {
+  const mm = responseToMm(us);
+  console.log(mm);
+}
+
 const PIN = 'A0';
 const board = new Board('/dev/cu.usbmodem1411', () => {
   console.log('BOARD READY');
   const pin = absAnalogPin(board, PIN);
-  //board.pinMode(pin, board.MODES.DIGITAL);
-  console.log(pin)
-  board.pingRead({
-    pin,
-    value: board.HIGH,
-    pulseOut: 5
-  }, (microseconds) => {
-    console.log(`response: ${microseconds} µs -> ${microseconds / 29.1 / 2} cm`);
-  });
 
-  board.on('ping-read-' + pin, dist => {
-    console.log('internal ping response: ' + dist);
-  });
+  function ping() {
+    board.pingRead({
+      pin,
+      value: board.HIGH,
+      pulseOut: 5
+    }, us => { datahandler(us); setTimeout(ping, 20); });
+  }
+  ping();
 });
