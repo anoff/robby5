@@ -1,7 +1,7 @@
 robby-five
 ===
 
-> robot car ecosystem
+> robot car ecosystem 🤖🚗
 
 The idea behind `robby-five` is to build different components in a robotic/autonomous (toy) car ecosystem.
 
@@ -9,8 +9,32 @@ Inspired by [johnny-five](http://johnny-five.io/) the main controlling unit will
 
 The base setup is the [elegoo smart robot car kit v1](https://www.elegoo.com/product/elegoo-uno-project-smart-robot-car-kit-v1-0/) or [v2](https://www.elegoo.com/product/elegoo-uno-project-upgraded-smart-robot-car-kit-v2-0/). However the components on it only allow to build really basic robots. To make it usable for some higher level automation it needs the base needs to be extended with:
 
+# contents
+<!-- TOC depthTo:2 -->
+
+- [contents](#contents)
+- [project ideas](#project-ideas)
+  - [multiple sonar sensors](#multiple-sonar-sensors)
+  - [autonomous nodebot](#autonomous-nodebot)
+  - [improved movement](#improved-movement)
+  - [remote localization](#remote-localization)
+  - [map generation](#map-generation)
+  - [relative robot localization](#relative-robot-localization)
+  - [robby wars](#robby-wars)
+- [examples](#examples)
+  - [[firmata-servo](./examples/firmata-servo)](#firmata-servoexamplesfirmata-servo)
+  - [[j5-chartist-sonar](./examples/j5-chartist-sonar)](#j5-chartist-sonarexamplesj5-chartist-sonar)
+  - [[raspi-led](./examples/raspi-led)](#raspi-ledexamplesraspi-led)
+  - [[raspi-sonar-servo](./examples/raspi-sonar-servo)](#raspi-sonar-servoexamplesraspi-sonar-servo)
+- [troubleshooting](#troubleshooting)
+  - [serialport does not install on raspbian](#serialport-does-not-install-on-raspbian)
+  - [node module installation fails using `yarn`](#node-module-installation-fails-using-yarn)
+
+<!-- /TOC -->
 
 # project ideas
+
+a list of ideas how the standard set of the robot can be improved to become a bit smarter.
 
 ## multiple sonar sensors
 
@@ -70,6 +94,8 @@ Set up a stationary camera that tracks the robot. Locate it on the map and send 
 
 come up with an idea how to use the sonar sensor (possibly rotating) to map a room by driving through it.
 
+first implementation of a radar chart with rotating 180° servo is available in the [firmata-sonar-map](./projects/firmata-sonar-map) project
+
 ## relative robot localization
 
 use odometry, inertial sensors, sonar/lidar feedback to allow for a control loop system aware of its past movement.
@@ -94,6 +120,10 @@ Capture HC-SR04 sonar distance readings via johnny-five and chart them on a webs
 
 Use raspberry pi IO to play with LEDs using johnny-five / raspi-io
 
+## [raspi-sonar-servo](./examples/raspi-sonar-servo)
+
+raspberry as control server for two attached arduinos
+
 # troubleshooting
 
 ## serialport does not install on raspbian
@@ -104,6 +134,6 @@ for some reason jessy doesn't ship with git installed which the `serialport` mod
 apt-get install git
 ```
 
-## node module installation fails using `yarn``
+## node module installation fails using `yarn`
 
 yes it happens.. guess it's something with the compilation use `npm install` instead
