@@ -2,6 +2,9 @@ const Board = require('firmata');
 const Sonar = require('./lib/sonar');
 const pwait = require('./lib/util').pwait;
 
+const server = require('./server');
+server.start();
+
 const PIN_SONAR = 4;
 const PIN_SERVO = 3;
 
@@ -26,9 +29,13 @@ const board = new Board('/dev/cu.usbmodem1411', () => {
     return servoPos += STEP;
   };
   const scan = () => {
-    return sonar.multiPing(4)
+    return sonar.multiPing(2)
     .then(arr => arr.reduce((c, p) => p.value < c.value ? p : c, { value: Infinity }))
-    .then(data => console.log(`${data.value}(${data.index}) @ ${servoPos}°`))
+    .then(data => Object.assign({angle: servoPos}, data))
+    .then(data => {
+      console.log(`${data.value}(${data.index}) @ ${data.angle}°`);
+      server.update(data);
+    })
     .then(() => servoTo(nextPos()))
     .then(pwait.bind(null, 20))
     .then(scan);
