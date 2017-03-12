@@ -1,5 +1,6 @@
 const Board = require('firmata');
 const Sonar = require('./lib/sonar');
+const Motor = require('./lib/motor');
 const pwait = require('./lib/util').pwait;
 
 const server = require('./server');
@@ -8,10 +9,9 @@ server.start();
 const PIN_SONAR = 4;
 const PIN_SERVO = 3;
 
-const START = 0;
 let STEP = 5;
 const MIN = 0, MAX = 180;
-let servoPos = START;
+let servoPos = MIN;
 
 const board = new Board(/*'/dev/ttyACM0'*/'/dev/cu.usbmodem1421', (err) => {
   if (err) {
@@ -55,6 +55,14 @@ const board = new Board(/*'/dev/ttyACM0'*/'/dev/cu.usbmodem1421', (err) => {
     .then(scan);
   }
   // start scanning
-  scan();
+  //scan();
 
+  const motor1 = new Motor(board, {speed: 5, in1: 6, in2: 7});
+  motor1.start(0.5);
+  console.log('START');
+  setTimeout(() => { console.log('STOP'); motor1.stop(); }, 2000);
+  // listen to web commands :o
+  server.getSocket().on('control_update', data => {
+
+  });
 });
