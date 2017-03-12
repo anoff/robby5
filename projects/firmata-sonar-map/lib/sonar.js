@@ -8,7 +8,7 @@ class Sonar extends Emitter {
     super();
     this.board = board;
     this.pin = normalizePin(board, pin);
-    this.value = null;
+    this.data = null;
   }
 
   ping() {
@@ -19,9 +19,13 @@ class Sonar extends Emitter {
         pulseOut: 5
       }, us => {
         const mm = this.responseToMm(us);
-        this.value = us;
-        this.emit('data', us);
-        resolve(us);
+        const data = {
+          value: mm,
+          time: Date.now()
+        }
+        this.data = data;
+        this.emit('data', data);
+        resolve(data);
       });
     })
   }
@@ -34,7 +38,7 @@ class Sonar extends Emitter {
       return fns.reduce((p, c, i) => {
         return p
           .then(c.bind(this))
-          .then(mm => results[i] = mm) // update results array
+          .then(data => results[i] = Object.assign({ index: i }, data)) // update results array
           .then(pwait.bind(null, 50)); // wait 50ms before next one is executed
       }, Promise.resolve())
       .then(() => resolve(results));
