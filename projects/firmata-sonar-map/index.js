@@ -35,16 +35,24 @@ const board = new Board('/dev/ttyACM0', (err) => {
     return servoPos += STEP;
   };
   const scan = () => {
+    // execute 4 pings
     return sonar.multiPing(4)
+    // select the reading with the smallest distance
     .then(arr => arr.reduce((c, p) => p.value < c.value ? p : c, { value: Infinity }))
+    // add current servo position to the data object
     .then(data => Object.assign({angle: servoPos}, data))
+    // send new data to web server
     .then(data => {
       console.log(`${data.value}(${data.index}) @ ${data.angle}°`);
       server.update(data);
     })
+    // move to next position
     .then(() => servoTo(nextPos()))
+    // wait 20ms for servo to move
     .then(pwait.bind(null, 20))
+    // trigger next scan
     .then(scan);
   }
+  // start scanning
   scan();
 });
