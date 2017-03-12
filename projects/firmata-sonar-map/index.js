@@ -13,7 +13,7 @@ let STEP = 5;
 const MIN = 0, MAX = 180;
 let servoPos = MIN;
 
-const board = new Board(/*'/dev/ttyACM0'*/'/dev/cu.usbmodem1421', (err) => {
+const board = new Board('/dev/ttyACM0'/*'/dev/cu.usbmodem1421'*/, (err) => {
   if (err) {
     throw new Error(err);
   }
@@ -31,7 +31,6 @@ const board = new Board(/*'/dev/ttyACM0'*/'/dev/cu.usbmodem1421', (err) => {
       STEP *= -1;
       // create a new dataset on the website
       server.getSocket().emit('sonar_data', 'next_set');
-      //server.update('next_set');
     }
     return servoPos += STEP;
   };
@@ -57,12 +56,22 @@ const board = new Board(/*'/dev/ttyACM0'*/'/dev/cu.usbmodem1421', (err) => {
   // start scanning
   //scan();
 
-  const motor1 = new Motor(board, {speed: 5, in1: 6, in2: 7});
-  motor1.start(0.5);
-  console.log('START');
-  setTimeout(() => { console.log('STOP'); motor1.stop(); }, 2000);
-  // listen to web commands :o
-  server.getSocket().on('control_update', data => {
+  const motor1 = new Motor(board, {speed: 5, in1: 7, in2: 6});
+  const motor2 = new Motor(board, {speed: 11, in1: 9, in2: 8});
 
+  // speed -1..1, yaw = -1..1
+  // TODO: calibrate to min/max PWM values so that increasing speed actually moves the thing
+  function move(speed, yaw) {
+    motor1.start(speed);
+    motor2.start(speed);
+  }
+  // listen to web commands :o
+  server.getSocket().on('connection', socket => {
+    console.log('socket connected');
+    socket.on('control_update', data => {
+      if (data.enabled) {
+        move(data.speed / 100);
+      }
+    });
   });
 });

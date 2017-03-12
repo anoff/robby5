@@ -1,4 +1,4 @@
-const socket = io.connect(window.location.href);
+const socket = io();
 const slider = document.querySelector('#speed_slider');
 const speedLabel = document.querySelector('#speed_label');
 const active = document.querySelector('#active_switch');
@@ -9,13 +9,17 @@ function sliderUpdate() {
     update(slider.value);
   }
 }
+// TODO: reset speed to 0 when disabling
 function update() {
   const data = {
     speed: slider.value,
-    active: active.checked
+    enabled: active.checked
   }
-  speedLabel.innerHTML = data.speed;
-  socket.emit('control_update', data);
+  // throttle processing
+  window.requestAnimationFrame(() => {
+    speedLabel.innerHTML = data.speed;
+    socket.emit('control_update', data);
+  });
 }
 slider.addEventListener('mousedown', () => isSliderActive = true);
 slider.addEventListener('mouseup', () => isSliderActive = false);
