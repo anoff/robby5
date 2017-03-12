@@ -9,7 +9,10 @@ const webDistPath = path.join(__dirname, 'web');
 let server, io;
 app.use('/', express.static(webDistPath));
 app.get('/', function(req, res) {
-  res.sendFile(path.join(webDistPath, 'index.html'));
+  res.sendFile(path.join(webDistPath, 'sonar.html'));
+});
+app.get('/control', function(req, res) {
+  res.sendFile(path.join(webDistPath, 'control.html'));
 });
 
 function start() {
@@ -20,6 +23,10 @@ function start() {
 }
 
 module.exports = {
-  update: val => io.sockets.emit('data', val),
+  getSocket: () => io,
   start
+}
+
+if (require.main === module) {
+  start();
 }

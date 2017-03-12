@@ -13,7 +13,7 @@ let STEP = 5;
 const MIN = 0, MAX = 180;
 let servoPos = START;
 
-const board = new Board('/dev/ttyACM0', (err) => {
+const board = new Board(/*'/dev/ttyACM0'*/'/dev/cu.usbmodem1421', (err) => {
   if (err) {
     throw new Error(err);
   }
@@ -30,7 +30,8 @@ const board = new Board('/dev/ttyACM0', (err) => {
       // change servo direction
       STEP *= -1;
       // create a new dataset on the website
-      server.update('next_set');
+      server.getSocket().emit('sonar_data', 'next_set');
+      //server.update('next_set');
     }
     return servoPos += STEP;
   };
@@ -44,7 +45,7 @@ const board = new Board('/dev/ttyACM0', (err) => {
     // send new data to web server
     .then(data => {
       console.log(`${data.value}(${data.index}) @ ${data.angle}°`);
-      server.update(data);
+      server.getSocket().emit('sonar_data', data);
     })
     // move to next position
     .then(() => servoTo(nextPos()))
@@ -55,4 +56,5 @@ const board = new Board('/dev/ttyACM0', (err) => {
   }
   // start scanning
   scan();
+
 });

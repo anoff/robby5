@@ -49,7 +49,7 @@ Chart.plugins.register({
     ctx.fillRect(0, 0, chartInstance.chart.width, chartInstance.chart.height);
   }
 });
-socket.on('data', val => {
+socket.on('sonar_data', val => {
     if (val.angle && val.value) {
       const set = data.datasets[SET_IX].data;
       const ix = (180 - val.angle)/5;
