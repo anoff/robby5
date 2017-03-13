@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io('/', {reconnection: true, reconnectionDelay: 500});
 const slider = document.querySelector('#speed_slider');
 const speedLabel = document.querySelector('#speed_label');
 const active = document.querySelector('#active_switch');
@@ -11,6 +11,9 @@ function sliderUpdate() {
 }
 // TODO: reset speed to 0 when disabling
 function update() {
+  if (!active.checked) {
+    slider.value = 0;
+  }
   const data = {
     speed: slider.value,
     enabled: active.checked

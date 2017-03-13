@@ -56,21 +56,27 @@ const board = new Board('/dev/ttyACM0'/*'/dev/cu.usbmodem1421'*/, (err) => {
   // start scanning
   //scan();
 
-  const motor1 = new Motor(board, {speed: 5, in1: 7, in2: 6});
-  const motor2 = new Motor(board, {speed: 11, in1: 9, in2: 8});
-
+  const motor1 = new Motor(board, {speed: 5, in1: 7, in2: 6}, {minPWM: 50});
+  const motor2 = new Motor(board, {speed: 11, in1: 9, in2: 8}, {minPWM: 50});
+  // minPWM 20 (30 to start driving..)
   // speed -1..1, yaw = -1..1
   // TODO: calibrate to min/max PWM values so that increasing speed actually moves the thing
   function move(speed, yaw) {
     motor1.start(speed);
     motor2.start(speed);
   }
+  function stop() {
+    motor1.stop();
+    motor2.stop();
+  }
   // listen to web commands :o
   server.getSocket().on('connection', socket => {
     console.log('socket connected');
     socket.on('control_update', data => {
-      if (data.enabled) {
+      if (data.enabled && data.speed !== 0) {
         move(data.speed / 100);
+      } else {
+        stop();
       }
     });
   });
