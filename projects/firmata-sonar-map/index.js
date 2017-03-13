@@ -9,7 +9,7 @@ server.start();
 const PIN_SONAR = 4;
 const PIN_SERVO = 3;
 
-let STEP = 5;
+let STEP = 10;
 const MIN = 0, MAX = 180;
 let servoPos = MIN;
 
@@ -36,7 +36,7 @@ const board = new Board('/dev/ttyACM0'/*'/dev/cu.usbmodem1421'*/, (err) => {
   };
   const scan = () => {
     // execute 4 pings
-    return sonar.multiPing(4)
+    return sonar.multiPing(2)
     // select the reading with the smallest distance
     .then(arr => arr.reduce((c, p) => p.value < c.value ? p : c, { value: Infinity }))
     // add current servo position to the data object
@@ -56,27 +56,36 @@ const board = new Board('/dev/ttyACM0'/*'/dev/cu.usbmodem1421'*/, (err) => {
   // start scanning
   //scan();
 
-  const motor1 = new Motor(board, {speed: 5, in1: 7, in2: 6}, {minPWM: 50});
-  const motor2 = new Motor(board, {speed: 11, in1: 9, in2: 8}, {minPWM: 50});
+  const motor1 = new Motor(board, {speed: 5, in1: 7, in2: 6}, {minPWM: 50 });
+  const motor2 = new Motor(board, {speed: 11, in1: 9, in2: 8}, {minPWM: 30 });
   // minPWM 20 (30 to start driving..)
   // speed -1..1, yaw = -1..1
   // TODO: calibrate to min/max PWM values so that increasing speed actually moves the thing
-  function move(speed, yaw) {
-    motor1.start(speed);
-    motor2.start(speed);
-  }
-  function stop() {
-    motor1.stop();
-    motor2.stop();
-  }
+
   // listen to web commands :o
   server.getSocket().on('connection', socket => {
     console.log('socket connected');
     socket.on('control_update', data => {
       if (data.enabled && data.speed !== 0) {
-        move(data.speed / 100);
+        const speed = data.speed / 100;
+        const yaw = data.yaw / 100;
+        if (yaw === 0) {
+          motor1.start(speed);
+          motor2.start(speed);
+        } else {
+          const absY = Math.abs(yaw);
+          const split = (absY - 0.5) * 2;
+          if (yaw > 0) {
+            motor1.start(speed);
+            motor2.start(speed * -split);
+          } else {
+            motor1.start(speed * -split);
+            motor2.start(speed);
+          }
+        }
       } else {
-        stop();
+        motor1.stop();
+        motor2.stop();
       }
     });
   });

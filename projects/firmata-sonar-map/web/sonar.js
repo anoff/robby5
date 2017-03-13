@@ -7,9 +7,9 @@ const socket = io.connect(window.location.href);
       }
     ]
   };*/
-  const STEP = 5; // how wide the data points are apart (degree)
-  const SIZE = 360/5; // calculate the number of data points on the radar chart
-  const MAX_SETS = 4; // maximum number of datasets (dynamically spawning seems annoying: http://stackoverflow.com/questions/31059399/how-to-push-datasets-dynamically-for-chart-js-bar-chart)
+  const STEP = 10; // how wide the data points are apart (degree)
+  const SIZE = 360/STEP; // calculate the number of data points on the radar chart
+  const MAX_SETS = 1; // maximum number of datasets (dynamically spawning seems annoying: http://stackoverflow.com/questions/31059399/how-to-push-datasets-dynamically-for-chart-js-bar-chart)
   let SET_IX = 0; // current index
   const data = {
     labels: [...Array(SIZE).keys()].map(e => e * STEP),
@@ -52,7 +52,7 @@ Chart.plugins.register({
 socket.on('sonar_data', val => {
     if (val.angle && val.value) {
       const set = data.datasets[SET_IX].data;
-      const ix = (180 - val.angle)/5;
+      const ix = (180 - val.angle)/STEP;
       set[ix] = val.value;
       window.requestAnimationFrame(render);
     } else if (val === 'next_set') {
