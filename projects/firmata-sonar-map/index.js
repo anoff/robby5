@@ -6,14 +6,16 @@ const pwait = require('./lib/util').pwait;
 const server = require('./server');
 server.start();
 
-const PIN_SONAR = 4;
-const PIN_SERVO = 3;
+const PIN_SONAR = 'A0';
+const PIN_SERVO = 0;
 
 let STEP = 10;
 const MIN = 0, MAX = 180;
 let servoPos = MIN;
 
 const board = new Board('/dev/ttyACM0'/*'/dev/cu.usbmodem1421'*/, (err) => {
+  // raspi CP2012: /dev/ttyUSB0
+  // raspi uno: /dev/ttyACM0
   if (err) {
     throw new Error(err);
   }
@@ -56,12 +58,23 @@ const board = new Board('/dev/ttyACM0'/*'/dev/cu.usbmodem1421'*/, (err) => {
   // start scanning
   //scan();
 
-  const motor1 = new Motor(board, {speed: 5, in1: 7, in2: 6}, {minPWM: 50 });
-  const motor2 = new Motor(board, {speed: 11, in1: 9, in2: 8}, {minPWM: 30 });
+  const motorRL = new Motor(board, {speed: 3, in1: 4, in2: 2}, {minPWM: 50 });
+  const motorRR = new Motor(board, {speed: 6, in1: 5, in2: 7}, {minPWM: 50 });
+  const motorFR = new Motor(board, {speed: 9, in1: 10, in2: 8}, {minPWM: 50 });
+  const motorFL = new Motor(board, {speed: 11, in1: 12, in2: 13}, {minPWM: 50 });
   // minPWM 20 (30 to start driving..)
   // speed -1..1, yaw = -1..1
   // TODO: calibrate to min/max PWM values so that increasing speed actually moves the thing
 
+  const motor1 = {
+    start: val => { motorRL.start(val); motorFL.start(val); },
+    stop: val => { motorRL.stop(); motorFL.stop(); }
+  };
+  const motor2 = {
+    start: val => { motorRR.start(val); motorFR.start(val); },
+    stop: val => { motorRR.stop(); motorFR.stop(); }
+  };
+  
   // listen to web commands :o
   server.getSocket().on('connection', socket => {
     console.log('socket connected');
