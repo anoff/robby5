@@ -33,6 +33,7 @@ const chart = new Chart(ctx, {
     type: 'radar',
     data: data,
     options: {
+      responsive: false,
       scale: {
         ticks: {
           beginAtZero: true,
