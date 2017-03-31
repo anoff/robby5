@@ -61,6 +61,7 @@ DC engines do not allow for proper odometry due to varying speed, maybe use step
 
 ### 4WD
 
+> This has been implemented in [projects/firmata-sonar-map](./projects/firmata-sonar-map/4wd_test.js)
 wheels on each side are controlled in pairs, using individual wheel control might improve maneuverability e.g. only stopping rear wheel to turn
 
 **before:**
@@ -75,7 +76,9 @@ adding an additional motor driver would allow to drive each wheel individually. 
 
 ### reduce wheel grip
 
-wheels have high grip which makes it hard to turn. having lower friction (especially lateral) would allow easier turns.
+~~wheels have high grip which makes it hard to turn. having lower friction (especially lateral) would allow easier turns.~~
+
+turns out that turning is only hard for low wheel speeds, increasing to proper speeds lets the robot turn just fine 👯
 
 #### omni / mecanum wheels 
 

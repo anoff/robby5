@@ -1,0 +1,79 @@
+<header>
+  <link rel="stylesheet" href="/node_modules/material-design-lite/material.min.css">
+  <script src="/node_modules/material-design-lite/material.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+</header>
+<body>
+  <!-- Always shows a header, even in smaller screens. -->
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <span class="mdl-layout-title">#robby5 🤖🚗 remote controls</span>
+      </div>
+    </header>
+    <main class="mdl-layout__content">
+      <div class="page-content">
+
+        <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--4-col"></div>
+          <div class="mdl-cell mdl-cell--4-col">
+
+            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="active_switch">
+              <input type="checkbox" id="active_switch" class="mdl-switch__input">
+              <span class="mdl-switch__label">enable motor</span>
+            </label>
+
+            <h3>speed</h3>
+            <div>
+              <input class="mdl-slider mdl-js-slider" type="range" min="-100" max="100" value="0" tabindex="0" id="speed_slider">
+              <span class="mdl-label" id="speed_label">0</span>
+            </div>
+
+            <h3>direction</h3>
+            <div>
+              <input class="mdl-slider mdl-js-slider" type="range" min="-100" max="100" value="0" tabindex="0" id="yaw_slider">
+              <span class="mdl-label" id="yaw_label">0</span>
+            </div>
+
+            <h3>direct controls</h3>
+            <table>
+              <tr>
+                <td></td>
+                <td>
+                  <button class="mdl-button mdl-js-button mdl-button--fab" id="button_up">
+                    <i class="material-icons">keyboard_arrow_up</i>
+                  </button>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  <button class="mdl-button mdl-js-button mdl-button--fab" id="button_left">
+                    <i class="material-icons">keyboard_arrow_left</i>
+                  </button>
+                </td>
+                <td>
+                  <button class="mdl-button mdl-js-button mdl-button--fab" id="button_down">
+                    <i class="material-icons">keyboard_arrow_down</i>
+                  </button>
+                </td>
+                <td>
+                  <button class="mdl-button mdl-js-button mdl-button--fab" id="button_right">
+                    <i class="material-icons">keyboard_arrow_right</i>
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="mdl-cell mdl-cell--4-col"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="text/javascript" src="node_modules/chart.js/dist/Chart.bundle.min.js"></script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="control.js"></script>
+</body>

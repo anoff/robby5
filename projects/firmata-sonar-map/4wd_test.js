@@ -29,10 +29,10 @@ const board = new Board('/dev/ttyUSB0' /*'/dev/cu.usbmodem1421'*/, (err) => {
   // TODO: calibrate to min/max PWM values so that increasing speed actually moves the thing
 
   function start(val) {
-    motorFR.start(val);
+    // motorFR.start(val);
     motorFL.start(val);
     motorRR.start(val);
-    motorRL.start(val);
+    //motorRL.start(val);
   }
   function stop() {
     motorFR.stop();
@@ -40,8 +40,8 @@ const board = new Board('/dev/ttyUSB0' /*'/dev/cu.usbmodem1421'*/, (err) => {
     motorRL.stop();
     motorRR.stop();
   }
-  start(80);
+  start(30);
   setTimeout(() => {
     stop();
-  }, 2000);
+  }, 1000);
 });
