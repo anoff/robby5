@@ -16,7 +16,8 @@ class Sonar extends Emitter {
       this.board.pingRead({
         pin: this.pin,
         value: this.board.HIGH,
-        pulseOut: 5
+        pulseOut: 5,
+        timeout: 400000
       }, us => {
         const mm = this.responseToMm(us);
         const data = {
