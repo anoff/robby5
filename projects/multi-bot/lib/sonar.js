@@ -17,7 +17,7 @@ class Sonar extends Emitter {
         pin: this.pin,
         value: this.board.HIGH,
         pulseOut: 5,
-        timeout: 400000
+        timeout: 200000
       }, us => {
         const mm = this.responseToMm(us);
         const data = {
@@ -32,7 +32,7 @@ class Sonar extends Emitter {
   }
 
   // execute multiple pings and return all values as array
-  multiPing(count) {
+  multiPing(count, wait = 50) {
     const fns = new Array(count).fill(this.ping);
     return new Promise(resolve => {
       const results = new Array(count);
@@ -40,7 +40,7 @@ class Sonar extends Emitter {
         return p
           .then(c.bind(this))
           .then(data => results[i] = Object.assign({ index: i }, data)) // update results array
-          .then(pwait.bind(null, 50)); // wait 50ms before next one is executed
+          .then(pwait.bind(null, wait)); // wait 50ms before next one is executed
       }, Promise.resolve())
       .then(() => resolve(results));
     });

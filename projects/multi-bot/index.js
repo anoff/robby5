@@ -35,6 +35,16 @@ let STEP = 20;
 const MIN = 0, MAX = 180;
 let servoPos = MIN;
 
+function median(values) {
+  values.sort( function(a,b) {return a - b;} );
+  var half = Math.floor(values.length/2);
+  if(values.length % 2) {
+    return values[half];
+  }
+  else {
+    return (values[half-1] + values[half]) / 2.0;
+  }
+}
 const sonarBoard = new Board('/dev/cu.usbmodem1411', err => {
   if (err) {
     throw new Error(err);
@@ -49,13 +59,16 @@ const sonarBoard = new Board('/dev/cu.usbmodem1411', err => {
   let sonarCnt = 0;
   function scan() {
     const sonar = sonars[sonarCnt];
-    return sonar.ping()
-    .then(data => {
-      data.angle = sonar.angle;
-      // console.log(`${data.value} @ ${data.angle}°`);
+    return sonar.multiPing(3, 0)
+    .then(results => {
+      const data = {
+        angle: sonar.angle,
+        value: median(results.map(e => e.value))
+      }
+      console.log(`${data.value} @ ${data.angle}°`);
       return server.getSocket().emit('sonar_data', data);
     })
-    .then(() => pwait.bind(null, 40))
+    //.then(() => pwait.bind(null, 40))
     .then(() => {
       sonarCnt++;
       if (sonarCnt >= sonars.length) {
