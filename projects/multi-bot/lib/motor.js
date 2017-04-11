@@ -1,4 +1,3 @@
-
 class Motor {
   constructor(board, pins, opts) {
     if (!pins.speed || !pins.in1 || !pins.in2) {
@@ -38,4 +37,3 @@ class Motor {
 }
 
 module.exports = Motor;
-

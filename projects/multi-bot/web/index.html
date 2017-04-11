@@ -15,8 +15,12 @@
     </header>
     <main class="mdl-layout__content">
       <div class="page-content">
-
         <div class="mdl-grid">
+          <div class="mdl-cell mdl-cell--4-col"></div>
+          <div class="mdl-cell mdl-cell--4-col">
+            <canvas id="chart" style="width:500px"></canvas>
+          </div>
+          <div class="mdl-cell mdl-cell--4-col"></div>
           <div class="mdl-cell mdl-cell--4-col"></div>
           <div class="mdl-cell mdl-cell--4-col">
 
@@ -72,6 +76,10 @@
       </div>
     </main>
   </div>
+
+  <script type="text/javascript" src="node_modules/chart.js/dist/Chart.bundle.min.js"></script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="sonar.js"></script>
 
   <script type="text/javascript" src="node_modules/chart.js/dist/Chart.bundle.min.js"></script>
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>

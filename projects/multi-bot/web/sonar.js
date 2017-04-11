@@ -56,7 +56,6 @@ socket.on('sonar_data', val => {
     }
 });
 
- 
 function render() {
   chart.update();
 }
