@@ -1,4 +1,4 @@
-const socket = io();
+
 const speedSlider = document.querySelector('#speed_slider');
 const speedLabel = document.querySelector('#speed_label');
 const yawSlider = document.querySelector('#yaw_slider');
@@ -47,7 +47,18 @@ active.addEventListener('change', update);
 // --- arrow inputs ---
 window.addEventListener('keydown', e => {
   buttonHandler(e.key);
+  toggleStyle(e.key, 'keydown');
 });
+function toggleStyle(key, event) {
+  const button = key.toLowerCase().replace('arrow', 'button');
+  if (Object.keys(buttons).indexOf(button.toLowerCase()) > -1) {
+    if (event === 'keydown') {
+      buttons[button].classList.add('mdl-button--colored');
+    } else {
+      buttons[button].classList.remove('mdl-button--colored');
+    }
+  }
+}
 function buttonHandler(key) {
   switch(key.toLowerCase()) {
     case 'arrowup':
@@ -68,7 +79,10 @@ function buttonHandler(key) {
       break;
   }
 }
-window.addEventListener('keyup', () => setSpeed(0, 0))
+window.addEventListener('keyup', e => {
+  setSpeed(0, 0);
+  toggleStyle(e.key, 'keyup');
+});
 
 // --- button inputs ---
 const buttons = {
