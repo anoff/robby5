@@ -1,4 +1,4 @@
-
+socket = io.connect(window.location.href);
 const speedSlider = document.querySelector('#speed_slider');
 const speedLabel = document.querySelector('#speed_label');
 const yawSlider = document.querySelector('#yaw_slider');
@@ -35,6 +35,7 @@ function setSpeed(val, yaw) {
     yaw,
     enabled: val !== 0
   }
+  console.log(socket.emit)
   socket.emit('control_update', data);
 }
 speedSlider.addEventListener('mousedown', () => isSliderActive = true);

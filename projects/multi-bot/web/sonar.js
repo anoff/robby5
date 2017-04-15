@@ -1,4 +1,4 @@
-const socket = io.connect(window.location.href);
+let socket = io.connect(window.location.href);
 const STEP = 10; // how wide the data points are apart (degree)
 const SIZE = 360/STEP; // calculate the number of data points on the radar chart
 const MAX_SETS = 1; // maximum number of datasets (dynamically spawning seems annoying: http://stackoverflow.com/questions/31059399/how-to-push-datasets-dynamically-for-chart-js-bar-chart)
