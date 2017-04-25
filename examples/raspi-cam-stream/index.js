@@ -16,7 +16,7 @@ app.ws('/', (ws, req) => {
     }));
 
     var videoStream = raspividStream({
-      framerate: 26,
+      framerate: 42,
       width: 640,
       height: 480,
       awb: 'fluorescent',
