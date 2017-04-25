@@ -17,7 +17,7 @@
       // Create h264 player
       var uri = "ws://" + document.location.host;
       var wsavc = new WSAvcPlayer(canvas, "webgl", 1, 35);
-      wsavc.initCanvas(800, 600);
+      wsavc.initCanvas(640, 480);
       wsavc.connect(uri);
       //expose instance for button callbacks
       window.wsavc = wsavc;
