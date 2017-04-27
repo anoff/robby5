@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const socket = require('socket.io');
 const app = express();
+const raspividStream = require('raspivid-stream');
+const wss = require('express-ws')(app);
 
 const port = 3030;
 const webDistPath = path.join(__dirname, 'web');
@@ -23,6 +25,33 @@ module.exports = {
   getSocket: () => io,
   start
 }
+
+app.ws('/video', (ws, req) => {
+    console.log('Client connected');
+
+    ws.send(JSON.stringify({
+      action: 'init',
+      width: '640',
+      height: '480'
+    }));
+
+    var videoStream = raspividStream({
+      framerate: 42,
+      width: 640,
+      height: 480,
+      awb: 'fluorescent',
+      rotation: 180
+    });
+
+    videoStream.on('data', (data) => {
+        ws.send(data, { binary: true }, (error) => { if (error) console.error(error); });
+    });
+
+    ws.on('close', () => {
+        console.log('Client left');
+        videoStream.removeAllListeners('data');
+    });
+});
 
 if (require.main === module) {
   start();
