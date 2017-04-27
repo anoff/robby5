@@ -7,5 +7,9 @@
   },
   "devDependencies": {
     "xo": "^0.17.1"
+  },
+  "scripts": {
+    "getRobbyIp": "nmap -p 2221 --open -oG - `ifconfig en0 | awk '$1 == \"inet\" {print $2}'`/24 | awk '/2221\\/open/ {print $2}'",
+    "sync": "remote-code -p 2221 pi@`npm run --silent getRobbyIp` -i ~/.ssh/id_pi -I 'npm install && cd web && npm install' -v"
   }
 }
