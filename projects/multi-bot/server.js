@@ -31,14 +31,14 @@ app.ws('/video', (ws, req) => {
 
     ws.send(JSON.stringify({
       action: 'init',
-      width: '640',
-      height: '480'
+      width: '240',
+      height: '180'
     }));
 
     var videoStream = raspividStream({
-      framerate: 42,
-      width: 640,
-      height: 480,
+      framerate: 10,
+      width: 240,
+      height: 180,
       awb: 'fluorescent',
       rotation: 180
     });

@@ -85,8 +85,8 @@
     var canvas = document.getElementById('video');
     // Create h264 player
     var uri = "ws://" + document.location.host + "/video";
-    var wsavc = new WSAvcPlayer(canvas, "webgl", 1, 35);
-    wsavc.initCanvas(640, 480);
+    var wsavc = new WSAvcPlayer(canvas, "webgl");
+    wsavc.initCanvas(240, 180);
     wsavc.connect(uri);
   </script>
 </body>
