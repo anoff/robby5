@@ -63,19 +63,19 @@ function buttonHandler(key) {
   switch(key.toLowerCase()) {
     case 'arrowup':
     case 'buttonup':
-      setSpeed(30, 0);
+      setSpeed(20, 0);
       break;
     case 'arrowdown':
     case 'buttondown':
-      setSpeed(-30, 0);
+      setSpeed(-20, 0);
       break;
     case 'arrowright':
     case 'buttonright':
-      setSpeed(60, 100);
+      setSpeed(30, 100);
       break;
     case 'arrowleft':
     case 'buttonleft':
-      setSpeed(60, -100);
+      setSpeed(30, -100);
       break;
   }
 }

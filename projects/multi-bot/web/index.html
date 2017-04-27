@@ -17,11 +17,13 @@
     <main class="mdl-layout__content">
       <div class="page-content">
         <div class="mdl-grid">
-          <div class="mdl-cell mdl-cell--4-col">
-            <canvas id="chart" style="width:500px"></canvas>
+          <div class="mdl-cell mdl-cell--5-col">
+            <canvas id="video" style="width:100%"></canvas>
           </div>
-
-          <div class="mdl-cell mdl-cell--2-col">
+          <div class="mdl-cell mdl-cell--4-col">
+            <canvas id="chart" style="width:100%"></canvas>
+          </div>
+          <div class="mdl-cell mdl-cell--3-col">
             <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="active_switch">
               <input type="checkbox" id="active_switch" class="mdl-switch__input">
               <span class="mdl-switch__label">enable motor</span>
@@ -69,9 +71,6 @@
               </tr>
             </table>
           </div>
-          <div class="mdl-cell mdl-cell--4-col">
-            <canvas id="video" style="width:500px"></canvas>
-          </div>
         </div>
       </div>
     </main>
@@ -82,15 +81,12 @@
   <script type="text/javascript" src="sonar.js"></script>
   <script type="text/javascript" src="control.js"></script>
   <script type="text/javascript" src="http-live-player.js">;</script>
-    <script type="text/javascript">
-      var canvas = document.getElementById('video');
-      document.body.appendChild(canvas);
-      // Create h264 player
-      var uri = "ws://" + document.location.host + "/video";
-      var wsavc = new WSAvcPlayer(canvas, "webgl", 1, 35);
-      wsavc.initCanvas(640, 480);
-      wsavc.connect(uri);
-      //expose instance for button callbacks
-      window.wsavc = wsavc;
-    </script>
+  <script type="text/javascript">
+    var canvas = document.getElementById('video');
+    // Create h264 player
+    var uri = "ws://" + document.location.host + "/video";
+    var wsavc = new WSAvcPlayer(canvas, "webgl", 1, 35);
+    wsavc.initCanvas(640, 480);
+    wsavc.connect(uri);
+  </script>
 </body>
