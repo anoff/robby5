@@ -4,7 +4,7 @@ const Motor = require('./lib/motor');
 const pwait = require('./lib/util').pwait;
 const rosnodejs = require('rosnodejs');
 
-const std_msgs = rosnodejs.require('std_msgs');
+const sensor_msgs = rosnodejs.require('sensor_msgs');
 
 const PIN_SONAR = 8;
 const PIN_SERVO = 3;
@@ -13,10 +13,11 @@ let STEP = 20;
 const MIN = 0, MAX = 180;
 let servoPos = MIN;
 
-rosnodejs.initNode('sensor_to_ros', {messages: ['std_msgs/Float32']})
+rosnodejs.initNode('sensor_to_ros', {messages: ['sensor_msgs/Range']})
 .then( (nodeHandle) => {
-    distance_publisher = nodeHandle.advertise('/distance', 'std_msgs/Float32');
+    distance_publisher = nodeHandle.advertise('/front_ultrasonic', 'sensor_msgs/Range');
     const sonarBoard = new Board('/dev/ttyACM0', err => {
+        let seq_no = 0;
         if (err) {
         throw new Error(err);
         }
@@ -46,9 +47,19 @@ rosnodejs.initNode('sensor_to_ros', {messages: ['std_msgs/Float32']})
             .then(data => {
                 console.log(`${data.value}(${data.index}) @ ${data.angle}°`);
                 // publish the distance to ros
-                msg = new std_msgs.msg.Float32();
-                msg.data = data.value;
+                msg = new sensor_msgs.msg.Range();
+                now_ms = Date.now();
+                msg.header.stamp.secs = Math.floor(now_ms / 1000);
+                msg.header.stamp.nsecs = (now_ms % 1000) * 1000000;
+                msg.header.frame_id = 'rotating_sonar'
+                msg.header.seq = seq_no;
+                msg.radiation_type = sensor_msgs.msg.Range.ULTRASOUND;
+                msg.field_of_view = 0.04; // 15 deg opening angle
+                msg.min_range = 0.1;
+                msg.max_range = 4.0;
+                msg.range = data.value / 1000; // convert from mm to m
                 distance_publisher.publish(msg);
+                seq_no += 1;
                 })
           // move to next position
           .then(() => servoTo(nextPos()))
