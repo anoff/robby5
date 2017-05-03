@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "express": "^4.15.2",
+    "firmata": "^0.15.0",
+    "rosnodejs": "^2.0.1",
+    "serialport": "^4.0.7",
+    "socket.io": "^1.7.3"
+  },
+  "devDependencies": {
+    "xo": "^0.17.1"
+  }
+}
