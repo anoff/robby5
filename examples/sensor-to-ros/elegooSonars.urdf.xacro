@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+
+<!-- created by Michael Kopp, 2017-05-22, MIT licensed -->
+
+<robot name="elegooSonars"
+    xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+    xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+    xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+    xmlns:xacro="http://ros.org/wiki/xacro">
+
+
+    <xacro:property name="base_above_ground"    value="0.03" /> <!-- distance between ground and the lower plane of the robot in m -->
+    <xacro:property name="height_chassis"       value="0.08" /> <!-- height of chassis (i.e. distance between lower and upper plane) in m -->
+    <xacro:property name="width_chassis"        value="0.08" /> <!-- width of chassis in m -->
+    <xacro:property name="length_chassis"       value="0.15" /> <!-- length of chassis in m -->
+
+
+    <!-- chassis; base_link is the point on the ground, directly below the center of the robot
+
+         This assumes, that the robot has two semi-circles to both ends.
+    -->
+    <link name="base_link">
+        <visual>
+            <origin xyz="${(length_chassis - width_chassis)/2} 0 ${base_above_ground + 0.5 * height_chassis}" />
+            <geometry>
+                <cylinder length="${height_chassis}" radius="${0.5 * width_chassis}" />
+            </geometry>
+            <material name="robot_color"> <color rgba="1 0 0 0.5" /> </material>
+        </visual>
+        <visual>
+            <origin xyz="${-(length_chassis - width_chassis)/2} 0 ${base_above_ground + 0.5 * height_chassis}" />
+            <geometry>
+                <cylinder length="${height_chassis}" radius="${0.5 * width_chassis}" />
+            </geometry>
+            <material name="robot_color" />
+        </visual>
+        <visual>
+            <origin xyz="0 0 ${base_above_ground + 0.5 * height_chassis}" />
+            <geometry>
+                <box size="${length_chassis - width_chassis} ${width_chassis} ${height_chassis}" />
+            </geometry>
+            <material name="robot_color" />
+        </visual>
+    </link>
+
+
+    <!-- simple description of a single sonar -->
+    <xacro:macro name="sonar_link" params="name">
+        <link name="${name}">
+            <visual>
+                <!-- flat cylinder; flat side is in x direction, rotate in joint
+                 appropriately -->
+                <origin xyz="0 0 0" rpy="0 1.5707963267948966 0" />
+                <geometry>
+                    <cylinder length="0.01" radius="0.02" />
+                </geometry>
+                <material name="yellow">
+                    <color rgba="1 1 0 1" />
+                </material>
+            </visual>
+        </link>
+    </xacro:macro>
+
+
+    <!-- fixed sonars -->
+    <xacro:macro name="fixed_sonar" params="id x y theta">
+        <xacro:sonar_link name="sonar_${id}" />
+        <joint name="sonar_${id}_to_base_link" type="fixed">
+            <parent link="base_link" />
+            <child link="sonar_${id}" />
+            <origin xyz="${x} ${y} ${base_above_ground + 0.2 * height_chassis}" rpy="0 0 ${theta}" />
+        </joint>
+    </xacro:macro>
+
+    <!-- sonar poses in x [m], y [m], theta [rad] of robot system
+
+         The x axis of each sensor points in direction of the sensor, z points
+         upwards.
+
+         This complies with the definition of of sensor_msgs/Range which
+         interprets "angle 0" (i.e. directly in front of sensor) as "x axis of
+         sensor".
+
+    -->
+    <!-- FIXME: These values are just approximate and need to be set correctly
+         by measuring position/angle precisely.
+    -->
+    <xacro:fixed_sonar id="f0" x="${length_chassis * 0.4}"  y="${width_chassis * 0.4}"  theta="1" />
+    <xacro:fixed_sonar id="f1" x="${length_chassis * 0.4}"  y="-${width_chassis * 0.4}" theta="-1" />
+    <xacro:fixed_sonar id="f2" x="-${length_chassis * 0.4}" y="${width_chassis * 0.4}"  theta="2.4" />
+    <xacro:fixed_sonar id="f3" x="-${length_chassis * 0.4}" y="-${width_chassis * 0.4}" theta="-2.4" />
+
+
+    <!-- rotating sonar -->
+
+    <xacro:sonar_link name="sonar_r0" />
+
+    <!-- FIXME: correct values for
+         - position (x, y, z (especially height above top plate))
+         - angle limits [rad]
+         - velocity [rad/s]; see http://wiki.ros.org/urdf/XML/joint -->
+    <joint name="sonar_r0_to_base_link" type="revolute">
+        <axis xyz="0 0 1" />
+        <limit effort="1000.0" lower="-1.9" upper="1.9" velocity="0.5" />
+        <origin rpy="0 0 0" xyz="${length_chassis * 0.4} 0 ${height_chassis + base_above_ground + 0.04}" />
+        <parent link="base_link" />
+        <child link="sonar_r0" />
+    </joint>
+
+
+</robot>

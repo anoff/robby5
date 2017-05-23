@@ -1,0 +1,13 @@
+<!-- load robot description into ros parameter server, launch joint/robot state publishers -->
+<launch>
+
+  <arg name="model" default="./elegooSonars.urdf.xacro" doc="path to xacro file to use" />
+  <param name="robot_description" command="xacro $(arg model)" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+      <param name="use_gui" value="false" /> <!-- control the joints using a gui; best for testing -->
+      <rosparam param="source_list">['joints']</rosparam> <!-- send a sensor_msgs/JointState message to (one of) this topic(s) to set the joint values -->
+  </node>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+</launch>
