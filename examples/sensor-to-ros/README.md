@@ -44,3 +44,35 @@ with the name and current angle of the moving joint (see
 
 Ros should be a able to display your readings correctly in rviz.  To display
 them, use the *Range* display.
+
+
+# Run with Docker container
+
+If you don't have ros installed, you can run this using docker per
+```
+xhost +local:root
+docker run --name robby5 -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --volume "/home/x/robby5:/data" ros-jade-usable
+```
+with the [image from here](https://github.com/kopp/ros-dockers/tree/master/ros-jade-usable).
+The `xhost` and `--volume=...` stuff is there to allow the docker to start X
+applications on the host's X Server.  This was tested on a Linux host.
+
+*Note*: It might be necessary to use a different version of ros (i.e. *kinetic*
+if using rosnodejs) -- if so, edit the `Dockerfile` to inherit `FROM` the
+correct ros version (e.g. `FROM osrf/ros:kinetic-desktop`).
+
+Execute `screen` in the container and start multiple tabs (*Ctrl* + a, c), in
+each tab execute one of the commands above (`roscore`, ...).
+
+
+## Let ros nodes from host talk to ros in container
+
+Check the output of `ifconfig eth0` in the container; get the IP address.
+This is typically `172.17.0.2`.
+On the host, set the environment variable `ROS_MASTER_URI` to (adjust IP
+address)
+
+	export ROS_MASTER_URI=127.17.0.2:11311
+
+All nodes started on the host (in a shell, where `ROS_MASTER_URI` is set like
+this) should try to contact the `roscore` running in the container.
