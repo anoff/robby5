@@ -3,7 +3,7 @@
 > remote control a sonar/camera robot via web
 
 
-[![robby5 multibot demo](https://j.gifs.com/1rx5w3.gif)](https://www.youtube.com/watch?v=zatFpUzCBV0)
+[![robby5 multibot demo](https://img.youtube.com/vi/zatFpUzCBV0/hq1.jpg)](https://www.youtube.com/watch?v=zatFpUzCBV0)
 
 ## overview
 
