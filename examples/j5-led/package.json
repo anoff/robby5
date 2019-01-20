@@ -1,0 +1,16 @@
+{
+  "name": "j5-led",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "johnny-five": "^0.11.7",
+    "serialport": "^6.0.4"
+  }
+}

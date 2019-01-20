@@ -1,0 +1,31 @@
+@startuml multibot
+skinparam monochrome true
+skinparam Handwritten true
+skinparam nodesep 50
+skinparam ranksep 20
+
+frame "robby5" as r5 {
+  component camera
+  component "5x sonar" as sonar
+  component "2x motor driver" as driver
+  component "RPi" as rpi {
+    node "server" as server
+  }
+  frame "Arduino" as arduino {
+    component "motor uC" as muc
+    component "sensor uC" as suc
+  }
+  sonar -down- suc
+  driver -down- muc
+  camera -down- server
+  suc - server: firmata
+  muc - server: firmata
+}
+interface "<ip>:3030" as web
+web -up- server
+
+actor user
+component "web device" as client
+user - client
+client -( web
+@enduml
