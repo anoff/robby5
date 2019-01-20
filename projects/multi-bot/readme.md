@@ -2,9 +2,8 @@
 
 > remote control a sonar/camera robot via web
 
-<video width="640" height="480" controls>
-  <source src="../../assets/multibot.mp4" type="video/mp4">
-</video>
+
+[![robby5 multibot demo](https://j.gifs.com/1rx5w3.gif)](https://www.youtube.com/watch?v=zatFpUzCBV0)
 
 ## overview
 
