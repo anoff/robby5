@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.2",
-    "johnny-five": "^0.11.7",
-    "serialport": "^6.0.4"
+    "johnny-five": "^1.0.0",
+    "serialport": "^7.1.3"
   }
 }
