@@ -1,0 +1,21 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "examples/firmata-lcd/package.json",
+        "examples/firmata-servo/package.json",
+        "examples/j5-chartist-sonar/package.json",
+        "examples/j5-chartist-sonar/web/package.json",
+        "examples/j5-led/package.json",
+        "examples/raspi-cam-stream/package.json",
+        "examples/raspi-led/package.json",
+        "examples/raspi-sonar-servo/package.json",
+        "examples/sensor-to-ros/package.json",
+        "projects/firmata-sonar-map/package.json",
+        "projects/firmata-sonar-map/web/package.json",
+        "projects/multi-bot/package.json",
+        "projects/multi-bot/web/package.json"
+      ]
+    }
+  }
+}
