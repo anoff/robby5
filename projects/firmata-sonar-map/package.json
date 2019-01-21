@@ -1,11 +1,11 @@
 {
   "dependencies": {
     "express": "^4.15.2",
-    "firmata": "^0.15.0",
-    "serialport": "^4.0.7",
-    "socket.io": "^1.7.3"
+    "firmata": "^2.0.0",
+    "serialport": "^7.1.3",
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
-    "xo": "^0.17.1"
+    "xo": "^0.24.0"
   }
 }
